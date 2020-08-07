@@ -7,6 +7,8 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+const GKE = "gke"
+
 func IsGKE(ctx context.Context, k8sClient kubernetes.Interface) (bool, error) {
 	v, err := k8sClient.Discovery().ServerVersion()
 	if err != nil {

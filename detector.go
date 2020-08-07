@@ -12,20 +12,24 @@ var allProviders = make(map[string]IsProvider)
 // IsProvider is the interface all providers need to implement
 type IsProvider func(ctx context.Context, k8sClient kubernetes.Interface) (bool, error)
 
+type ErrUnknownProvider struct{}
+
+func (e ErrUnknownProvider) Error() string {
+	return "unknown provider"
+}
+
 func init() {
-	allProviders["aks"] = providers.IsAKS
-	// allProviders["docker"] = providers.IsDocker
-	allProviders["eks"] = providers.IsEKS
-	allProviders["gke"] = providers.IsGKE
-	allProviders["k3s"] = providers.IsK3s
-	// allProviders["kubeadm"] = providers.IsKubeadm
-	// allProviders["minikube"] = providers.IsMinikube
-	allProviders["rke"] = providers.IsRKE
-	allProviders["rke2"] = providers.IsRKE2
+	allProviders[providers.AKS] = providers.IsAKS
+	allProviders[providers.Docker] = providers.IsDocker
+	allProviders[providers.EKS] = providers.IsEKS
+	allProviders[providers.GKE] = providers.IsGKE
+	allProviders[providers.K3s] = providers.IsK3s
+	allProviders[providers.Minikube] = providers.IsMinikube
+	allProviders[providers.RKE] = providers.IsRKE
+	allProviders[providers.RKE2] = providers.IsRKE2
 }
 
 // DetectProvider accepts a k8s interface and checks all registered providers for a match
-// Returning an emptry string indicates the provider is unknown
 func DetectProvider(ctx context.Context, k8sClient kubernetes.Interface) (string, error) {
 	for name, p := range allProviders {
 		// Check the context before calling the provider
@@ -39,5 +43,14 @@ func DetectProvider(ctx context.Context, k8sClient kubernetes.Interface) (string
 			return name, nil
 		}
 	}
-	return "", nil
+	return "", ErrUnknownProvider{}
+}
+
+// ListRegisteredProviders returns a list of the names of all providers
+func ListRegisteredProviders() []string {
+	p := make([]string, len(allProviders))
+	for k := range allProviders {
+		p = append(p, k)
+	}
+	return p
 }

@@ -7,6 +7,8 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+const AKS = "aks"
+
 func IsAKS(ctx context.Context, k8sClient kubernetes.Interface) (bool, error) {
 	// Look for nodes that have an AKS specific label
 	listOpts := metav1.ListOptions{

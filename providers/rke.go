@@ -7,11 +7,17 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+const RKE = "rke"
+
 func IsRKE(ctx context.Context, k8sClient kubernetes.Interface) (bool, error) {
 	// Any node created by RKE should have the annotation, so just grab 1
 	nodes, err := k8sClient.CoreV1().Nodes().List(ctx, metav1.ListOptions{Limit: 1})
 	if err != nil {
 		return false, err
+	}
+
+	if len(nodes.Items) == 0 {
+		return false, nil
 	}
 
 	annos := nodes.Items[0].Annotations
