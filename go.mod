@@ -1,4 +1,4 @@
-module github.com/rancher/provider-detector
+module github.com/rancher/kubernetes-provider-detector
 
 go 1.14
 
