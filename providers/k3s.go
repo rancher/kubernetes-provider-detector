@@ -7,6 +7,8 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+const K3s = "k3s"
+
 func IsK3s(ctx context.Context, k8sClient kubernetes.Interface) (bool, error) {
 	v, err := k8sClient.Discovery().ServerVersion()
 	if err != nil {
