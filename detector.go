@@ -3,7 +3,7 @@ package detector
 import (
 	"context"
 
-	"github.com/rancher/provider-detector/providers"
+	"github.com/rancher/kubernetes-provider-detector/providers"
 	"k8s.io/client-go/kubernetes"
 )
 
