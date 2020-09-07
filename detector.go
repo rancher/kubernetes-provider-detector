@@ -2,6 +2,7 @@ package detector
 
 import (
 	"context"
+	"errors"
 
 	"github.com/rancher/kubernetes-provider-detector/providers"
 	"k8s.io/client-go/kubernetes"
@@ -12,11 +13,7 @@ var allProviders = make(map[string]IsProvider)
 // IsProvider is the interface all providers need to implement
 type IsProvider func(ctx context.Context, k8sClient kubernetes.Interface) (bool, error)
 
-type ErrUnknownProvider struct{}
-
-func (e ErrUnknownProvider) Error() string {
-	return "unknown provider"
-}
+var ErrUnknownProvider = errors.New("unknown provider")
 
 func init() {
 	allProviders[providers.AKS] = providers.IsAKS
@@ -43,7 +40,7 @@ func DetectProvider(ctx context.Context, k8sClient kubernetes.Interface) (string
 			return name, nil
 		}
 	}
-	return "", ErrUnknownProvider{}
+	return "", ErrUnknownProvider
 }
 
 // ListRegisteredProviders returns a list of the names of all providers
