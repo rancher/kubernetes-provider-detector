@@ -23,6 +23,7 @@ func init() {
 	allProviders[providers.K3s] = providers.IsK3s
 	allProviders[providers.Minikube] = providers.IsMinikube
 	allProviders[providers.RKE] = providers.IsRKE
+	allProviders[providers.RKE_WINDOWS] = providers.IsRKEWindows
 	allProviders[providers.RKE2] = providers.IsRKE2
 }
 
