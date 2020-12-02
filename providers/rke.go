@@ -36,7 +36,7 @@ func IsRKE(ctx context.Context, k8sClient kubernetes.Interface) (bool, error) {
 	if _, ok := annos["rke.cattle.io/external-ip"]; ok {
 		return true, nil
 	}
-	if _, ok := annos["rke.cattle.io/internal-ip:"]; ok {
+	if _, ok := annos["rke.cattle.io/internal-ip"]; ok {
 		return true, nil
 	}
 	return false, nil
