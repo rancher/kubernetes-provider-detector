@@ -26,6 +26,7 @@ func init() {
 	allProviders[providers.RKE] = providers.IsRKE
 	allProviders[providers.RKE_WINDOWS] = providers.IsRKEWindows
 	allProviders[providers.RKE2] = providers.IsRKE2
+	allProviders[providers.RKE2_WINDOWS] = providers.IsRKE2Windows
 }
 
 // DetectProvider accepts a k8s interface and checks all registered providers for a match
